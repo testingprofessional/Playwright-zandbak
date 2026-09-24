@@ -97,10 +97,5 @@ The important distinction is:
 
 ```
 
-**Deze zou ik voor je README gebruiken.** Vooral de combinatie van het Mermaid-diagram en de korte lifecycle-flow maakt het voor iemand die je repo bekijkt meteen duidelijk waarom die verschillende lagen bestaan.
-
-Als je wilt, kunnen we hem later in hoofdstuk 8 ook uitbreiden naar één **volledig architectuurdiagram van jouw hele Playwright-project** (Test → Fixtures → Workflows → Page Objects → API → Backend).
-```
-
                  
 
