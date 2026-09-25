@@ -94,12 +94,12 @@ The important distinction is:
 * **UserApiClient = DOMAIN API** → knows how to perform user-related API operations
 * **ApiClient = HOW** → handles generic HTTP communication
 * **APIRequestContext = EXECUTION** → performs the actual API request
-```
+
 
 ###Good to know
 
 ##Locators:
-```
+```text
 Auto-waiting covers actions on a single element, but some situations need
 an explicit wait first:
 
@@ -109,7 +109,7 @@ an explicit wait first:
 ```
 
 ##Assertions:
-```
+```text
 - Web-First 
 await expect(locator).toBeVisible();
 Targets a locator, auto retries until it passes or times out.
@@ -126,12 +126,15 @@ Records the failure but let the test keep running (Test is marked failed)
 ```
 
 ##Annotations:
+```text
 test.skip() Don't run this test, reported as skipped
 test.only() Run only this test in the file (for debugging purposes)
 test.fixme() Marks a known broken test, skipped but tracked
 test.slow() Triples the timeout for a known slow test
+```
 
 ##Example test file:
+```text
 test.describe('Profile settings', { tag: '@smoke' }, () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/profile');
@@ -147,8 +150,10 @@ test.describe('Profile settings', { tag: '@smoke' }, () => {
     await expect(page.getByLabel('Display name')).toHaveValue(name);
   })
 })
+```
 
 ##Example LoginPage Class:
+```text
 export class LoginPage { 
   readonly page: Page;
   readonly emailInput: Locator
@@ -172,10 +177,12 @@ export class LoginPage {
     await this.signInButton.click();
   }
 }
+```
 
 !! Keep assertions OUT of page objects. Return locators/values, assert in the test !!
 
 ##Fixtures:
+```text
 import { test as base } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 
@@ -184,8 +191,10 @@ export const test = base.extend<{ loginPage: LoginPage }> ({
     await use(new LoginPage(page));
   }
 });
+```
 
 ##Using a custom fixture:
+```text
 import { test } from '../fixtures';
 import { expect } from '@playwright/test';
 
@@ -194,8 +203,10 @@ test('user can log in', async ({ loginPage, page }) => {
   await loginPage.signIn('user@example.com', 'Secret!');
   await expect(page.getByText('Welcome back')).toBeVisible();
 });
+```
 
 ##Combining multiple Page Objects
+```text
 type Pages = { loginPAge: LoginPage, dashboardPage: DashboardPage };
 
 export const test = base.extend<Pages>({
@@ -205,6 +216,7 @@ export const test = base.extend<Pages>({
 
 And in a test:
 test('...', async ({ loginPage, dashboardPage }) => { /* ... */ });
+```
 
 Every page object your suite needs become a fixture, injected only when a test actually asks for it.
 Playwright resolves and caches them lazily per test.
