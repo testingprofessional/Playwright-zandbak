@@ -96,6 +96,52 @@ The important distinction is:
 * **APIRequestContext = EXECUTION** → performs the actual API request
 
 ```
+Good to know
 
+Locators:
+Auto-waiting covers actions on a single element, but some situations need
+an explicit wait first:
+
+- waitForLoadSState() Wait for 'load', 'domcontentloaded', or 'networkidle' after navigation
+- waitForSelector() Wait for an element to appear/disappear before proceeding
+- waitForResponse() Wait for a specific network response (e.g. after an API call) 
+
+Assertions:
+- Web-First 
+await expect(locator).toBeVisible();
+Targets a locator, auto retries until it passes or times out.
+Use this when it's derived from a page
+
+- Generic 
+expect(responseBody.status).toBe(200);
+Targets a plain value, checked once immediately, no retry
+(API response, computed number)
+
+- Soft assertion
+await expect.soft()
+Records the failure but let the test keep running (Test is marked failed)
+
+Annotations:
+test.skip() Don't run this test, reported as skipped
+test.only() Run only this test in the file (for debugging purposes)
+test.fixme() Marks a known broken test, skipped but tracked
+test.slow() Triples the timeout for a known slow test
+
+Example test file:
+test.describe('Profile settings', { tag: '@smoke' }, () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/profile');
+  })
+
+  test('updates display name', async ({ page}) => {
+    const name = faker,person.fullName();
+    await test.step('fill and submit form', async () => {
+      await page.getByLabel('Display name').fill(name);
+      await page.getByRole('button', { name: 'Save' }).click()
+    })
+    await expect.soft(page.getByText('Saved!')).toBeVisible();
+    await expect(page.getByLabel('Display name')).toHaveValue(name);
+  })
+})
                  
 
