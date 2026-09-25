@@ -191,6 +191,18 @@ test('user can log in', async ({ loginPage, page }) => {
   await expect(page.getByText('Welcome back')).toBeVisible();
 });
 
-![alt text](image.png)
+##Combining multiple Page Objects
+type Pages = { loginPAge: LoginPage, dashboardPage: DashboardPage };
+
+export const test = base.extend<Pages>({
+  loginPage: async ({ page }, use) => { await use(new LoginPage(page)); },
+  dashboardPage: async ({ page }, use) => { await use(new DashboardPage(page)); }
+});
+
+And in a test:
+test('...', async ({ loginPage, dashboardPage }) => { /* ... */ });
+
+Every page object your suite needs become a fixture, injected only when a test actually asks for it.
+Playwright resolves and caches them lazily per test.
                  
 
