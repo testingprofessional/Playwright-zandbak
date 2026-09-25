@@ -179,6 +179,18 @@ export const test = base.extend<{ loginPage: LoginPage }> ({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
   }
-})
+});
+
+##Using a custom fixture:
+import { test } from '../fixtures';
+import { expect } from '@playwright/test';
+
+test('user can log in', async ({ loginPage, page }) => {
+  await loginPage.goto();
+  await loginPage.signIn('user@example.com', 'Secret!');
+  await expect(page.getByText('Welcome back')).toBeVisible();
+});
+
+![alt text](image.png)
                  
 
