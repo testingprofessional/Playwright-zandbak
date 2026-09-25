@@ -98,7 +98,7 @@ The important distinction is:
 ```
 Good to know
 
-Locators:
+##Locators:
 Auto-waiting covers actions on a single element, but some situations need
 an explicit wait first:
 
@@ -106,7 +106,7 @@ an explicit wait first:
 - waitForSelector() Wait for an element to appear/disappear before proceeding
 - waitForResponse() Wait for a specific network response (e.g. after an API call) 
 
-Assertions:
+##Assertions:
 - Web-First 
 await expect(locator).toBeVisible();
 Targets a locator, auto retries until it passes or times out.
@@ -121,13 +121,13 @@ Targets a plain value, checked once immediately, no retry
 await expect.soft()
 Records the failure but let the test keep running (Test is marked failed)
 
-Annotations:
+##Annotations:
 test.skip() Don't run this test, reported as skipped
 test.only() Run only this test in the file (for debugging purposes)
 test.fixme() Marks a known broken test, skipped but tracked
 test.slow() Triples the timeout for a known slow test
 
-Example test file:
+##Example test file:
 test.describe('Profile settings', { tag: '@smoke' }, () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/profile');
@@ -144,7 +144,7 @@ test.describe('Profile settings', { tag: '@smoke' }, () => {
   })
 })
 
-Example LoginPage Class:
+##Example LoginPage Class:
 export class LoginPage { 
   readonly page: Page;
   readonly emailInput: Locator
@@ -170,5 +170,15 @@ export class LoginPage {
 }
 
 !! Keep assertions OUT of page objects. Return locators/values, assert in the test !!
+
+##Fixtures:
+import { test as base } from '@playwright/test';
+import { LoginPage } from '../pages/LoginPage';
+
+export const test = base.extend<{ loginPage: LoginPage }> ({
+  loginPage: async ({ page }, use) => {
+    await use(new LoginPage(page));
+  }
+})
                  
 
