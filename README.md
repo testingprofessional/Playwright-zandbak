@@ -94,7 +94,7 @@ The important distinction is:
 * **UserApiClient = DOMAIN API** → knows how to perform user-related API operations
 * **ApiClient = HOW** → handles generic HTTP communication
 * **APIRequestContext = EXECUTION** → performs the actual API request
-
+```
 
 ###Good to know
 
