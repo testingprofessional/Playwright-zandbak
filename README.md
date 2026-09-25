@@ -95,18 +95,21 @@ The important distinction is:
 * **ApiClient = HOW** → handles generic HTTP communication
 * **APIRequestContext = EXECUTION** → performs the actual API request
 
-```
-Good to know
+
+###Good to know
 
 ##Locators:
+```
 Auto-waiting covers actions on a single element, but some situations need
 an explicit wait first:
 
 - waitForLoadSState() Wait for 'load', 'domcontentloaded', or 'networkidle' after navigation
 - waitForSelector() Wait for an element to appear/disappear before proceeding
 - waitForResponse() Wait for a specific network response (e.g. after an API call) 
+```
 
 ##Assertions:
+```
 - Web-First 
 await expect(locator).toBeVisible();
 Targets a locator, auto retries until it passes or times out.
@@ -120,6 +123,7 @@ Targets a plain value, checked once immediately, no retry
 - Soft assertion
 await expect.soft()
 Records the failure but let the test keep running (Test is marked failed)
+```
 
 ##Annotations:
 test.skip() Don't run this test, reported as skipped
