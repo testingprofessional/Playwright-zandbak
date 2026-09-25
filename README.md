@@ -134,7 +134,7 @@ test.describe('Profile settings', { tag: '@smoke' }, () => {
   })
 
   test('updates display name', async ({ page}) => {
-    const name = faker,person.fullName();
+    const name = faker.person.fullName();
     await test.step('fill and submit form', async () => {
       await page.getByLabel('Display name').fill(name);
       await page.getByRole('button', { name: 'Save' }).click()
@@ -143,5 +143,32 @@ test.describe('Profile settings', { tag: '@smoke' }, () => {
     await expect(page.getByLabel('Display name')).toHaveValue(name);
   })
 })
+
+Example LoginPage Class:
+export class LoginPage { 
+  readonly page: Page;
+  readonly emailInput: Locator
+  readonly passwordInput: Locator
+  readonly signInButton: Locator
+
+  constructor(page: Page) {
+    this.page = page;
+    this.emailInput = page.getByLabel('Email');
+    this.passwordInput = page.getByLabel('Password');
+    this.signInButton = page.getByRole('button', { name: 'Sign in' });
+  }
+
+  async goto() {
+    await this.page.goto('/login');
+  }
+
+  async signIn(email: string, password: string) {
+    await this.emailInput.fill(email);
+    await this.passwordInput.fill(password);
+    await this.signInButton.click();
+  }
+}
+
+!! Keep assertions OUT of page objects. Return locators/values, assert in the test !!
                  
 
